@@ -6,21 +6,14 @@ AcAt = 15.3713; % [-]
 M_e = 2.889; % [-]
 gam = 1.2982;
 % Other
-n_b = 0.1; % [-] Percent Truncated
+r_b = 0.2; % [in]
 r_ch = 1; % [in]
 pts = 1000; % [-] Number of points on aerospike curve
 
 %% SPIKE CALCULATIONS
-r_b_mat = linspace(0,r_ch,10000); % [in]
-r_th_mat = ((r_ch^2)/AcAt+r_b_mat.^2).^(1/2); % [in]
-r_e_mat = (AeAt.*(r_th_mat.^2-r_b_mat.^2)+r_b_mat.^2).^(1/2); % [in]
-n_b_mat = r_b_mat./r_e_mat; % [-]
-
-[~,ind] = min(abs(n_b_mat - n_b));
-r_b = r_b_mat(ind);
 r_th = ((r_ch^2)/AcAt+r_b^2)^(1/2); % [in]
 r_e = (AeAt*(r_th^2-r_b^2)+r_b^2)^(1/2); % [in]
-n_b = r_b/r_e;
+n_b = r_b/r_e; % [-]
 
 M=linspace(1,M_e,pts); % [-]
 AR = areaRatio(gam,M); % [-]
@@ -149,7 +142,7 @@ centerline_x = [-10 10];
 centerline_y = [0 0];
 
 hold on
-plot(centerline_x,centerline_y,'-.k')
+plot(centerline_x,centerline_y,'--k')
 % Spike
 plot(spike_contour_x, spike_contour_y,'k', x_trunc, y_trunc,'k')
 plot(spike_contour_x,-spike_contour_y,'k',x_trunc,-y_trunc,'k')
